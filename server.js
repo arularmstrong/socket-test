@@ -2,8 +2,7 @@
 /* ----------------------------------------------------------------- */
 var http = require('http'),
     path = require('path'),
-    isProduction = (process.env.NODE_ENV === 'production'),
-    port = isProduction ? 80 : process.env.PORT || 8000,
+    port = process.env.PORT || 5000,
     express = require('express'),
     app = express(),
     socketio = require('socket.io'),
@@ -148,4 +147,4 @@ io.on('connection', function (socket) {
 // ...and actually starting the server!
 /* ----------------------------------------------------------------- */
 
-server.listen(app.get('port'));
+server.listen(port);
