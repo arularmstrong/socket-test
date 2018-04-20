@@ -1,0 +1,25 @@
+doctype 5
+html
+  head
+    
+    link(rel='stylesheet' href='/css/game.css')
+
+
+    script.
+        function enterGame() {
+            var playerName = document.getElementById("playerName").value;
+            if (playerName == "") {
+                document.getElementById("playerName").value = "YOUR NAME?";
+            } else {
+                window.location.href = "./game?user=" + playerName + '';
+            }
+        }
+
+  body
+    #container
+        #nameinput
+            h2="Welcome, Please enter your name."
+            input#playerName(type='text')
+            a(href="#", onclick="enterGame()")="Enter Game"
+        
+            

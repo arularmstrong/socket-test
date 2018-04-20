@@ -1,0 +1,245 @@
+body
+{
+    margin: 0;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    color: #fff;
+    background-color: #000;
+
+         -o-user-select: none;
+    -ms-touch-action: none;
+        touch-action: none;
+}
+
+#screen canvas
+{
+    display: block;
+
+    margin: auto;
+	width:100%;
+    -ms-interpolation-mode: nearest-neighbor;
+
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering:   -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering:         optimize-contrast;
+}
+
+/* "Normal" CSS */
+html
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-color: #e2e2e2;
+}
+
+#title
+{
+    margin-top: 0;
+
+    color: white;
+}
+
+body
+{
+    font-family: 'Lucida Console','Open Sans', 'Segoe UI', Verdana, Helvetica, Sans-Serif;
+    font-size: .85em;
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    color: #333;
+    background-color: #fff;
+    background-image: url('/img/wild_oliva.png');
+}
+
+.wrapper
+{
+    height: 90%;
+}
+
+#score
+{
+    font-family: 'Lucida Console','Open Sans', 'Segoe UI', Verdana, Helvetica, Sans-Serif;
+    font-weight: bold;
+
+    width: 99%;
+	height: relative;
+   margin-top: -1px;
+    padding: 8px;
+
+    color: #fff;
+    background-color: black;
+}
+
+#score h4
+{
+    margin: 0;
+}
+
+#screen
+{
+
+    width: 100%;
+
+}
+
+#title
+{
+    float: left;
+
+    padding-top: 10px;
+}
+
+#individualScores
+{
+    margin-bottom: 50px;
+}
+
+#settings
+{
+    height: 42px;
+}
+
+#soundSwitch,
+#musicSwitch
+{
+    margin-top: 10px;
+}
+
+#musicSwitch:link,
+#musicSwitch:active,
+#musicSwitch:visited,
+#soundSwitch:link,
+#soundSwitch:active,
+#soundSwitch:visited
+{
+    text-decoration: none;
+
+    color: #fff;
+}
+
+#musicSwitch:hover,
+#soundSwitch:hover
+{
+    text-decoration: underline;
+
+    color: #fff;
+}
+
+#settings a:active,
+#settings a:visited
+{
+    text-decoration: none;
+
+    color: #a32300;
+}
+
+footer
+{
+    clear: both;
+
+    padding: 40px 0 0 0;
+
+    text-align: center;
+
+    color: #e2e2e2;
+}
+
+footer a:link,
+footer a:active,
+footer a:visited,
+footer a:hover
+{
+    color: #e2e2e2;
+}
+
+footer h3
+{
+    margin: 0;
+    padding: 0;
+
+    color: #fff;
+}
+
+#container
+{
+    width: -webkit-fit-content;
+    width:    -moz-fit-content;
+    width:     -ms-fit-content;
+    width:         fit-content;
+    margin: auto;
+}
+
+#primer
+{
+    width: 1400px;
+    height: 603px;
+
+    background-color: #6d6d6d;
+}
+
+#nameinput
+{
+    clear: left;
+
+    width: 350px;
+    margin-right: auto;
+    margin-left: auto;
+
+    text-align: center;
+}
+
+#nameinput h2
+{
+    color: #fff;
+}
+
+#nameinput input
+{
+    font-family: 'Lucida Console','Open Sans', 'Segoe UI', Verdana, Helvetica, Sans-Serif;
+    font-size: 20px;
+
+    display: inline-block;
+
+    width: 200px;
+    height: 40px;
+
+    text-align: center;
+}
+
+#nameinput a:link,
+#nameinput a:active,
+#nameinput a:visited
+{
+    font-size: 20px;
+
+    display: inline-block;
+
+    width: 200px;
+    width: 200px;
+    height: 40px;
+    margin-top: 12px;
+    padding: 8px 3px 0 3px;
+
+    text-align: center;
+    text-decoration: none;
+
+    color: #fff;
+    background-color: #a32300;
+}
+
+#nameinput a:hover
+{
+    color: #a32300;
+    background-color: #fff;
+}

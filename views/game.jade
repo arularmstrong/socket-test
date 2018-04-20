@@ -1,0 +1,175 @@
+doctype 5
+html
+  head
+   
+    link(rel='stylesheet' href='/css/game.css')
+
+    //Socket.io .. neddes to load before melon.js for some still unknown reason
+    script(src='/socket.io/socket.io.js')
+    
+    // MelonJS
+    script(src='lib/melonJS-1.0.0.js')
+    script(src='lib/plugins/debugPanel.js')
+
+    // Custom stuff
+    script(src='js/audio.js')
+    script(src='js/game.js')
+    script(src='js/resources.js')
+    script(src='js/entities/player.js')
+    script(src='js/entities/bulletEntity.js')
+    script(src='js/entities/extraEntities.js')
+    script(src='js/entities/HUD.js')
+    script(src='js/screens/title.js')
+    script(src='js/screens/play.js')
+
+    //Helper Libs 
+    script(src='http://code.jquery.com/jquery-1.10.2.min.js')
+    script(src='http://underscorejs.org/underscore-min.js')
+
+  body
+    #container
+      #screen
+      #score
+          h4="PLAYERS"
+          ul#individualScores
+       
+    
+    script.
+      function createUUID() {
+        // http://www.ietf.org/rfc/rfc4122.txt
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+
+        var uuid = s.join("");
+        return uuid;
+      }
+
+      function createCookie(name,value,days) {
+        if (days) {
+          var date = new Date();
+          date.setTime(date.getTime()+(days*24*60*60*1000));
+          var expires = "; expires="+date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name+"="+value+expires+"; path=/";
+      }
+
+      function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+
+      function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      }
+
+      function eraseCookie(name) {
+        createCookie(name,"",-1);
+      }
+
+      var sessionId = readCookie('sessionId');
+      if(!sessionId) {
+        sessionId = createUUID();
+        createCookie('sessionId', sessionId, 100);
+      }
+
+      window.onReady(function onReady() {
+        var socket = io.connect();
+        game.socket = socket;
+        game.gameReady = function() {
+          socket.emit('gameReady', { id: sessionId, name: getParameterByName("user") });
+          console.log('Username: ' + getParameterByName("user"));
+        }
+
+        game.onload();
+
+        if (me.device.isMobile && !navigator.isCocoonJS) {
+          window.document.addEventListener("touchmove", function (e) {
+            e.preventDefault();
+            window.scroll(0, 0);
+            return false;
+          }, false);
+
+          (function () {
+            window.scrollTo(0, 1);
+            me.video.onresize(null);
+          }).defer();
+
+          me.event.subscribe(me.event.WINDOW_ONRESIZE, function (e) {
+            window.scrollTo(0, 1);
+          });
+        }
+
+        socket.on('playerId', function(playerId) {
+          game.playerId = playerId;
+        });
+        
+        socket.on('addPlayer', function (data) {
+          game.addEnemy(data);
+         });
+        
+        socket.on('addMainPlayer', function (data) {
+          game.addMainPlayer(data);
+        });
+
+        socket.on('removePlayer', function (id) {
+          if(game.playerId == id) {
+            window.location = '/';
+          }
+          game.removeEnemy({ id: id });
+        });
+
+        socket.on('addPlayers', function(players) {
+          for(var id in players) {
+            if(id != game.mainPlayer.id) {
+              game.addEnemy(players[id]);
+            }
+          }
+        });
+        
+        socket.on('updatePlayerState', function(data) {
+          game.updatePlayerState(data);
+        });
+
+        socket.on('score', function(score) {
+          game.data.score = score;
+        });
+
+        socket.on('highScores', function(scores) {
+          scores = _.sortBy(scores, function(player){ return player.score * -1; });
+          console.log('SCORES');
+          $('#individualScores').html('');
+          for(var id in scores) {
+            if(id == 'remove') {
+              continue;
+            }
+            var score = scores[id];
+            $('#individualScores').append('<li>' + score.name + ' (' + score.score + ')</li>');
+          }
+        });
+
+        socket.on('remotePlayerHit', function(data) {
+          game.remotePlayerHealthChanged(data);
+        });
+
+        socket.on('remotePlayerHealed', function(data) {
+          game.remotePlayerHealthChanged(data);
+        });
+
+        socket.on('fireBullet', function(id, source, target) {
+          game.fireBullet(source, target, id);
+        });
+      });
