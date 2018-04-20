@@ -146,4 +146,4 @@ io.on('connection', function (socket) {
 // ...and actually starting the server!
 /* ----------------------------------------------------------------- */
 
-server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
