@@ -8462,9 +8462,9 @@ window.me = window.me || {};
             var ypos = (this.height / 2) + (this.logo2.measureText(context, "melon").height);
 
             // draw the melonJS string
-            this.logo1.draw(context, "melon", xpos, ypos);
+            this.logo1.draw(context, "Shoot", xpos, ypos);
             xpos += logo1_width;
-            this.logo2.draw(context, "JS", xpos, ypos);
+            this.logo2.draw(context, "Skyra", xpos, ypos);
         }
 
     });
