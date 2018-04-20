@@ -2,8 +2,7 @@
 /* ----------------------------------------------------------------- */
 var http = require('http'),
     path = require('path'),
- 
-const PORT = process.env.PORT || 5000
+	PORT = process.env.PORT || 5000,
     express = require('express'),
     app = express(),
     socketio = require('socket.io'),
