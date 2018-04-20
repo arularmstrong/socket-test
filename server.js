@@ -2,17 +2,19 @@
 /* ----------------------------------------------------------------- */
 var http = require('http'),
     path = require('path'),
-	PORT = process.env.PORT || 5000,
+    isProduction = (process.env.NODE_ENV === 'production'),
+    port = isProduction ? 80 : process.env.PORT || 8000,
     express = require('express'),
     app = express(),
     socketio = require('socket.io'),
     server, io, players, highScores;
 
 // Setting up express for routing
-
-app.set('views',path.join(__dirname, 'views'));
+app.set('port', port);
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-
+app.use(express.favicon());
+app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
@@ -146,4 +148,4 @@ io.on('connection', function (socket) {
 // ...and actually starting the server!
 /* ----------------------------------------------------------------- */
 
-app.listen(PORT);
+server.listen(app.get('port'));
