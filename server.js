@@ -2,16 +2,16 @@
 /* ----------------------------------------------------------------- */
 var http = require('http'),
     path = require('path'),
-    isProduction = (process.env.NODE_ENV === 'production'),
-    port = isProduction ? 80 : process.env.PORT || 8000,
+ 
+const PORT = process.env.PORT || 5000
     express = require('express'),
     app = express(),
     socketio = require('socket.io'),
     server, io, players, highScores;
 
 // Setting up express for routing
-app.set('port', port);
-app.set('views', __dirname + '/views');
+
+app.set('views',path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(express.logger('dev'));
@@ -148,10 +148,4 @@ io.on('connection', function (socket) {
 // ...and actually starting the server!
 /* ----------------------------------------------------------------- */
 
-server.listen(app.get('port'), function () {
-    console.log('\n' +
-        '-----------------------------\n' +
-        '|   Welcome to Node Mayhem! |\n' +
-        '-----------------------------\n' +
-        'Server listening on port ' + app.get('port'));
-});
+server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
